@@ -96,13 +96,26 @@ function Friend({friend}) {
 
 
 function FormAddFriend() {
+
+  const [friendName, setFriendName] = useState('');
+
+  const [friendAvatar, setFriendURL] = useState("https://i.pravatar.cc/48");
+
   return (
     <form className="form-add-friend">
       <label>👬 Friend Name</label>
-      <input type="text" />
+      <input
+        type="text"
+        value={friendName}
+        onChange={(e) => setFriendName(e.target.value)}
+      />
 
       <label>🎆 Image URL</label>
-      <input type="text" />
+      <input
+        type="text"
+        value={friendAvatar}
+        onChange={(e) => setFriendURL(e.target.value)}
+      />
 
       <Button>Add</Button>
     </form>
