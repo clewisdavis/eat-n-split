@@ -26,6 +26,7 @@ const initialFriends = [
 export default function App() {
 
   const [showAddFriend, setShowAddFriend] = useState(false);
+  const [friends, setFriends] = useState(initialFriends);
 
   function handleShowAddFriends() {
     setShowAddFriend((show) => !show);
@@ -33,7 +34,7 @@ export default function App() {
 
   return <div className='app'>
     <div className="sidebar">
-      <FriendsList />
+      <FriendsList friends={friends} />
       {showAddFriend && <FormAddFriend />}
       <Button onClick={handleShowAddFriends}>{showAddFriend ? 'Close' : 'Add Friend'}</Button>
     </div>
@@ -51,8 +52,8 @@ function Button({ children, onClick }) {
 }
 
 
-function FriendsList() {
-  const friends = initialFriends;
+function FriendsList({ friends }) {
+  // const friends = initialFriends;
 
   return (
     <ul>
@@ -101,8 +102,26 @@ function FormAddFriend() {
 
   const [friendAvatar, setFriendURL] = useState("https://i.pravatar.cc/48");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!friendName || !friendAvatar) return;
+
+    const id = crypto.randomUUID();
+    const newFriend = {
+      friendName,
+      friendAvatar: `${friendAvatar}?=${id}`,
+      balance: 0,
+    };
+
+    console.log(newFriend);
+
+    setFriendName('');
+    setFriendURL("https://i.pravatar.cc/48");
+  }
+
   return (
-    <form className="form-add-friend">
+    <form className="form-add-friend" onSubmit={handleSubmit}>
       <label>👬 Friend Name</label>
       <input
         type="text"
