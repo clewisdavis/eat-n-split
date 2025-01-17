@@ -45,7 +45,7 @@ export default function App() {
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList friends={friends} onSelection={handleSelection} />
+        <FriendsList friends={friends} onSelection={handleSelection} selectedFriend={selectedFriend} />
 
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
         <Button onClick={handleShowAddFriends}>
@@ -67,28 +67,37 @@ function Button({ children, onClick }) {
 }
 
 
-function FriendsList({ friends, onSelection }) {
+function FriendsList({ friends, onSelection, selectedFriend }) {
   // const friends = initialFriends;
 
   return (
     <ul>
       {friends.map((friend) => (
-        <Friend friend={friend} key={friend.id} onSelection={onSelection} />
+        <Friend
+          friend={friend}
+          key={friend.id}
+          onSelection={onSelection}
+          selectedFriend={selectedFriend}
+        />
       ))}
     </ul>
-  )
+  );
 }
 
-function Friend({ friend, onSelection }) {
-  console.log(friend)
+function Friend({ friend, onSelection, selectedFriend }) {
+  console.log(friend);
+  console.log(selectedFriend);
+
+  const isSelected = selectedFriend.id === friend.id;
+
   return (
-    <li>
+    <li className={isSelected ? "selected" : ""}>
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
 
       {friend.balance < 0 && (
         <p className="red">
-          You own {friend.name} ${Math.abs(friend.balance)}
+          You owe {friend.name} ${Math.abs(friend.balance)}
         </p>
       )}
 
