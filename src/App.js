@@ -39,7 +39,9 @@ export default function App() {
   }
 
   function handleSelection(friend) {
-    setSelectedFriend(friend);
+    // setSelectedFriend(friend);
+    setSelectedFriend((current) => current?.id === friend.id ? '' : friend);
+    setShowAddFriend(false);
   }
 
   return (
@@ -88,7 +90,7 @@ function Friend({ friend, onSelection, selectedFriend }) {
   console.log(friend);
   console.log(selectedFriend);
 
-  const isSelected = selectedFriend.id === friend.id;
+  const isSelected = selectedFriend?.id === friend.id;
 
   return (
     <li className={isSelected ? "selected" : ""}>
@@ -113,7 +115,7 @@ function Friend({ friend, onSelection, selectedFriend }) {
         </p>
       )}
 
-      <Button onClick={() => onSelection(friend)}>Select</Button>
+      <Button onClick={() => onSelection(friend)}>{isSelected ? 'Close' : 'Select'}</Button>
     </li>
   );
 }
